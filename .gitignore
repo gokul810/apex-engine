@@ -1,0 +1,15 @@
+# Build artifacts
+build/
+bin/
+obj/
+
+# IDE / Editor stuff
+.vscode/
+.cache/
+compile_commands.json
+*.sublime-project
+*.sublime-workspace
+
+# OS junk
+.DS_Store
+Thumbs.db
