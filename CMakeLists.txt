@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
-project(ApexRacingEngine C)
+# Changed project to include CXX (C++) support
+project(ApexRacingEngine C CXX)
 
 set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 11) # ImGui needs C++11
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # 1. Find System Packages
@@ -10,26 +12,28 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GLFW REQUIRED glfw3)
 
 # 2. Setup Directories
-# We added 'deps/cglm/include' so we can use #include <cglm/cglm.h>
 include_directories(
     src 
     deps 
     deps/cglm/include 
+    src/vendor/imgui
+    src/vendor/imgui/backends
     ${GLFW_INCLUDE_DIRS}
 )
 
 # 3. Collect Source Files
-# This automatically picks up src/main.c and src/renderer/glad.c
+# We need to collect both .c (your code) and .cpp (ImGui code)
 file(GLOB_RECURSE SOURCES "src/*.c")
+file(GLOB_RECURSE IMGUI_SOURCES "src/vendor/imgui/*.cpp")
+file(GLOB_RECURSE BRIDGE_SOURCES "src/*.cpp")
 
 # 4. Create the executable
-add_executable(ApexRacingEngine ${SOURCES})
+add_executable(ApexRacingEngine ${SOURCES} ${IMGUI_SOURCES} ${BRIDGE_SOURCES})
 
 # 5. Link Libraries
-# 'm' is the math library—even though cglm is header-only, 
-# some functions might still need the linker's help.
 target_link_libraries(ApexRacingEngine 
     OpenGL::GL 
     ${GLFW_LIBRARIES} 
     m
+    dl # ImGui/GLAD often needs the dynamic linker library on Linux
 )
