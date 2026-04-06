@@ -128,7 +128,7 @@ int main() {
     
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    GLFWwindow* window = glfwCreateWindow(1280, 640, "Apex Engine | Anti-Aliased Long Road", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1280, 640, "Apex Engine 0.1 Developer Preview", NULL, NULL);
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
